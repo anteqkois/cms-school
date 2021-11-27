@@ -9,7 +9,7 @@ if( count( $_GET ) )
     
     $structureTemplate = json_decode($template['structureOfTemplate']);
 
-    $html = '<h1>Tworzysz stronę z szablonu: "'. $template['nameOftemplate']  .'"</h1><form action="addPageFromTemplateAction.php?template='.$_GET ['nameOfTemplate'].'" method="post">url<br><input type="text" name="url"><br><br>';
+    $html = '<h1>Tworzysz stronę z szablonu: "'. $template['nameOftemplate']  .'"</h1><form action="createFromTemplateAction.php?template='.$_GET ['nameOfTemplate'].'" method="post">url<br><input type="text" name="url"><br><br>';
     
     foreach( $structureTemplate as $structure ){
         // echo '<pre>';

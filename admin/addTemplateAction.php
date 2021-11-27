@@ -22,4 +22,6 @@ if( count( $_POST ) )
 
 }
 ?>
-<a href="/admin">Wróc do panela admina</a>
+<a href="/cmsantek/admin">Wróc do panela admina</a>
+
+<!-- INSERT INTO `testowy`(`body`, `main`) VALUES ('test','test') -->

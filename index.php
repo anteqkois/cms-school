@@ -12,16 +12,28 @@ require 'polacz_z_baza.php'; // dołączenie skryptu tworzącego obiekt klasy PD
 $q = $sql->prepare( 'SELECT * FROM `podstrony` WHERE `url`=? LIMIT 1' );
 
 $q->execute( [ $url ] ); // wysłanie zapytania z bezpiecznym podpięciem adresu url
+$resultFromPodstrony = $q->fetch( PDO::FETCH_ASSOC );
 
+//Pobieranie szablonu html+PHP z tabeli template
+$q = $sql->prepare( 'SELECT `template` FROM `template` WHERE `nameOfTemplate`=?' );
+$q->execute( [ $resultFromPodstrony['template'] ] );
+$resultFromTemplate = $q->fetch( PDO::FETCH_ASSOC );
+
+//Pobieranie pól z tabeli odpowiedniego szablonu jaki został użyty
+$q = $sql->prepare( 'SELECT * FROM ? WHERE `nameOfTemplate`=?' );
+$q->execute( [ $resultFromPodstrony['template'] ] );
+$resultFromTemplate = $q->fetch( PDO::FETCH_ASSOC );
 
 // if( false === $w = $q->fetch( PDO::FETCH_ASSOC ) ) // w przypadku braku strony o żądanym adresie w bazie:
 //     $w = [ 'title' => 'Error!', 'body' => 'Nie ma takiej strony' ]; // nadpisanie odpowiedzi $w
 
-// wygenerowanie kodu HTML szablonu podstrony z podstawieniem ustalonych zmiennych
 
 // var_dump($w);
 // echo '<pre>';
-// print_r($w);
+// print_r($resultFromTemplate);
+
+echo $resultFromTemplate['template'];
+
 ?>
 
 <!-- 

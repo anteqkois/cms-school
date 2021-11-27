@@ -21,19 +21,19 @@ if( isset( $_SESSION['kom'] ) )
 
 ?>
 <!-- <a href="edit.php"> dodaj stronę </a><br><br> -->
-<a href="selectTemplate.php"> dodaj stronę według szablonu</a><br><br>
+<a href="selectTemplate.php"> dodaj stronę według szablonu</a><br>
 <a href="addTemplate.php"> dodaj szablon</a><br><br>
 <?php
 
-if( count( $podstrony = $sql->query( 'SELECT `id`,`url` FROM `podstrony`' )->fetchAll( PDO::FETCH_NUM ) ) )
+if( count( $podstrony = $sql->query( 'SELECT `id`,`url`, `template` FROM `podstrony`' )->fetchAll( PDO::FETCH_NUM ) ) )
 {
-    echo '<table><tr><th>id</th><th>adres URL</th><th>tytuł</th><th>komendy</th></tr>';
+    echo '<table><tr><th>id</th><th>adres URL</th><th>użyty szablon</th><th>komendy</th></tr>';
     
     foreach( $podstrony as $p )
     {
-        list( $id, $url ) = $p;
+        list( $id, $url, $template ) = $p;
 
-        echo '<tr><td>'. $id .'</td><td>'. $url .'</td><td>'.
+        echo '<tr><td>'. $id .'</td><td>'. $url .'</td><td>'. $template .'</td><td>'.
                 '<a href="../'. $url .'" target="_blank">podgląd</a> | '.
                 '<a href="edit.php?id='. $id .'">edytuj</a> | '.
                 '<a href="skasuj.php?id='. $id .'">skasuj</a></td></tr>';
