@@ -10,29 +10,44 @@ require 'polacz_z_baza.php'; // dołączenie skryptu tworzącego obiekt klasy PD
 
 // utworzenie szablonu zapytania o podstronę o żądanym adresie url
 $q = $sql->prepare( 'SELECT * FROM `podstrony` WHERE `url`=? LIMIT 1' );
-
 $q->execute( [ $url ] ); // wysłanie zapytania z bezpiecznym podpięciem adresu url
 $resultFromPodstrony = $q->fetch( PDO::FETCH_ASSOC );
 
-//Pobieranie szablonu html+PHP z tabeli template
-$q = $sql->prepare( 'SELECT `template` FROM `template` WHERE `nameOfTemplate`=?' );
-$q->execute( [ $resultFromPodstrony['template'] ] );
-$resultFromTemplate = $q->fetch( PDO::FETCH_ASSOC );
 
-//Pobieranie pól z tabeli odpowiedniego szablonu jaki został użyty
-$q = $sql->prepare( 'SELECT * FROM ? WHERE `nameOfTemplate`=?' );
-$q->execute( [ $resultFromPodstrony['template'] ] );
-$resultFromTemplate = $q->fetch( PDO::FETCH_ASSOC );
+if($q->rowCount()){
+    
+    //Pobieranie szablonu html+PHP z tabeli template
+    $q = $sql->prepare( 'SELECT `template` FROM `template` WHERE `nameOfTemplate`=?' );
+    $q->execute( [ $resultFromPodstrony['template'] ] );
+    $resultFromTemplate = $q->fetch( PDO::FETCH_ASSOC );
+    
+    //Pobieranie pól z tabeli odpowiedniego szablonu jaki został użyty (z prepare nie działa... nie można użyć '' a trzeba do zapytania do bazy)
+    // $q = $sql->prepare( "SELECT * FROM ? WHERE `url`='?'" );
+    // $q->execute( array( $resultFromPodstrony['template'], $url ) );
+    // $resultFromFieldsTable = $q->fetch( PDO::FETCH_ASSOC );
+    $q = $sql->query( "SELECT * FROM ". $resultFromPodstrony['template'] ." WHERE `url`='". $url ."'" );
+    $fields = $q->fetch( PDO::FETCH_ASSOC );
+    
+}else{
+    echo '<h1>Nie ma podstrony o podnaym adresie !</h1>';
+    die();
+}
+
 
 // if( false === $w = $q->fetch( PDO::FETCH_ASSOC ) ) // w przypadku braku strony o żądanym adresie w bazie:
-//     $w = [ 'title' => 'Error!', 'body' => 'Nie ma takiej strony' ]; // nadpisanie odpowiedzi $w
+    //     $w = [ 'title' => 'Error!', 'body' => 'Nie ma takiej strony' ]; // nadpisanie odpowiedzi $w
+    
+    
+    // echo '<pre>';
+    // print_r($q->rowCount());
+    // var_dump($resultFromPodstrony);
+    
+// var_dump($resultFromPodstrony['template']);
+// var_dump($url);
+// print_r($resultFromPodstrony['template']);
+// print_r($url);
 
-
-// var_dump($w);
-// echo '<pre>';
-// print_r($resultFromTemplate);
-
-echo $resultFromTemplate['template'];
+// echo $resultFromTemplate['template'];
 
 ?>
 
