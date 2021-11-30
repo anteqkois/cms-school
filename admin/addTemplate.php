@@ -12,6 +12,7 @@ $html = '
   td { text-align: center;  border: 1px solid black; background-color: burlywood; cursor: copy;}
 	table input, textarea { width: 100%; }
 	textarea { height: 200px; }
+  p{margin-block: 0;}
 </style>
 
 ';
@@ -38,7 +39,7 @@ echo $html;
 	
 <br><br>
 <table>
-  <caption>Pola szablonu</caption>
+  <caption><h3>Pola szablonu</h3></caption>
   <thead>
     <tr>
       <th>Tytuł pola</th>
@@ -47,13 +48,15 @@ echo $html;
   </thead>
   <tbody id="fields">
 
-  </tbody> 
+  </tbody>
 </table><br>
-Kod PHP:<br>
+<p >Naciśnij dany wiersz pola by skopiować pole do wklejenia do kodu PHP  (Pole do wklejenia wygląda następująco: <strong><?php highlight_string('<?=$fields["test"]?>');?></strong>)</p>
+<br><br>Kod PHP:<br>
 <textarea name="template" id="template" ></textarea><br>
   <input type="submit" value="zapisz" id="submit">
 </form>
 <a href="/cmsantek/admin">Wróc do panela admina</a>
+<div id="clip" ></div>
 
 <script>
 
@@ -73,11 +76,6 @@ Kod PHP:<br>
   const templateTextArea = document.getElementById('template');
   templateTextArea.value = htmlToTemplate;
 
-  templateTextArea.addEventListener('click', (e)=>{
-    // console.log(e.target);
-    paste();
-  })
-  
   let data = [];
   
   const submitForm = ()=>{
@@ -93,10 +91,6 @@ Kod PHP:<br>
     });
   }
 
-  const paste = () => {
-    const text = navigator.clipboard.readText();
-    console.log(window.clipboardData.getData())
-  }
   
   const addButton = document.getElementById('add');
   addButton.addEventListener('click', (e)=>{
@@ -118,7 +112,6 @@ Kod PHP:<br>
     newField.appendChild(typeTd);
 
     newField.addEventListener('click', (e)=>{
-      // console.log(e.target.getAttribute('data-field-to-paste'));
       const toPaste = e.target.getAttribute('data-field-to-paste');
       updateClipboard(toPaste);
     })
@@ -129,4 +122,3 @@ Kod PHP:<br>
   })
     
 </script>
-<!-- <?=$fields["main"]?> -->
