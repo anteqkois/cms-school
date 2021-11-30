@@ -35,3 +35,5 @@ if( $template = $sql->query( 'SELECT `nameOfTemplate` FROM `template`' ))
 }
 
 else echo 'Brak szablonów :-(';
+?>
+<a href="/cmsantek/admin">Wróc do panela admina</a>

@@ -37,3 +37,5 @@ if( count( $_GET ) )
 
 
 }
+?>
+<a href="/cmsantek/admin">Wróc do panela admina</a>

@@ -9,7 +9,7 @@ $html = '
 <style>
 	table { width: 50%; border: 1px solid black; border-collapse: collapse;}
 	th { vertical-align: top; border: 1px solid black;  }
-  td { text-align: center;  border: 1px solid black;}
+  td { text-align: center;  border: 1px solid black; background-color: burlywood; cursor: copy;}
 	table input, textarea { width: 100%; }
 	textarea { height: 200px; }
 </style>
@@ -42,7 +42,7 @@ echo $html;
   <thead>
     <tr>
       <th>Tytuł pola</th>
-      <th>Typ pola</th>
+      <th>Typ</th>
     </tr>
   </thead>
   <tbody id="fields">
@@ -53,6 +53,7 @@ Kod PHP:<br>
 <textarea name="template" id="template" ></textarea><br>
   <input type="submit" value="zapisz" id="submit">
 </form>
+<a href="/cmsantek/admin">Wróc do panela admina</a>
 
 <script>
 
@@ -69,13 +70,32 @@ Kod PHP:<br>
       </body>
   </html>`;
 
-  document.getElementById('template').value = htmlToTemplate;
+  const templateTextArea = document.getElementById('template');
+  templateTextArea.value = htmlToTemplate;
+
+  templateTextArea.addEventListener('click', (e)=>{
+    // console.log(e.target);
+    paste();
+  })
   
   let data = [];
   
   const submitForm = ()=>{
     dataToSend = JSON.stringify(data)
     document.getElementById("data").value = dataToSend;
+  }
+
+  const updateClipboard = (newClip) => {
+    navigator.clipboard.writeText(newClip).then(function() {
+      /* clipboard successfully set */
+    }, function() {
+      /* clipboard write failed */
+    });
+  }
+
+  const paste = () => {
+    const text = navigator.clipboard.readText();
+    console.log(window.clipboardData.getData())
   }
   
   const addButton = document.getElementById('add');
@@ -89,11 +109,24 @@ Kod PHP:<br>
     type = document.getElementById('typeOption').value;
     nameTd.innerHTML = name;
     typeTd.innerHTML = type;
+    // let data = '<\?=$fields["'+name+'"]?>';
+
+    nameTd.setAttribute('data-field-to-paste', '<\?=$fields["'+name+'"]?>');
+    typeTd.setAttribute('data-field-to-paste', '<\?=$fields["'+name+'"]?>');
+
     newField.appendChild(nameTd);
     newField.appendChild(typeTd);
+
+    newField.addEventListener('click', (e)=>{
+      // console.log(e.target.getAttribute('data-field-to-paste'));
+      const toPaste = e.target.getAttribute('data-field-to-paste');
+      updateClipboard(toPaste);
+    })
+
     document.getElementById('fields').appendChild(newField);
 
     data = [...data, {nameField: name, typeField: type}]
   })
     
 </script>
+<!-- <?=$fields["main"]?> -->

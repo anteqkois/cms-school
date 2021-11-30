@@ -27,46 +27,13 @@ if($q->rowCount()){
     // $resultFromFieldsTable = $q->fetch( PDO::FETCH_ASSOC );
     $q = $sql->query( "SELECT * FROM ". $resultFromPodstrony['template'] ." WHERE `url`='". $url ."'" );
     $fields = $q->fetch( PDO::FETCH_ASSOC );
+
+    // Wykonujemy kod z szablonu gdzie znajdują się zmienne 
+    eval($resultFromTemplate['template']);
     
 }else{
     echo '<h1>Nie ma podstrony o podnaym adresie !</h1>';
     die();
 }
 
-
-// if( false === $w = $q->fetch( PDO::FETCH_ASSOC ) ) // w przypadku braku strony o żądanym adresie w bazie:
-    //     $w = [ 'title' => 'Error!', 'body' => 'Nie ma takiej strony' ]; // nadpisanie odpowiedzi $w
-    
-    
-    // echo '<pre>';
-    // print_r($q->rowCount());
-    // var_dump($resultFromPodstrony);
-    
-// var_dump($resultFromPodstrony['template']);
-// var_dump($url);
-// print_r($resultFromPodstrony['template']);
-// print_r($url);
-
-// echo $resultFromTemplate['template'];
-
 ?>
-
-<!-- 
-<!DOCTYPE html>
-<html lang="pl">
-    <head>
-        <meta charset="utf-8">
-        <title><?=htmlspecialchars($w['title'])?></title>
-        <style>
-            /* main, aside { display: inline-block; } */
-            body { margin: 0; }
-            /* main { width: 64%; }
-            aside { width: 36%; }
-            <?=$w['css']?> */
-        </style>
-    </head>
-    <body>
-        <main><?=$w['body']?></main>
-        <aside><?=$w['aside']?></aside>
-    </body>
-</html> -->
