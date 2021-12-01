@@ -61,7 +61,7 @@ echo $html;
 <script>
 
   const htmlToTemplate = `
-<!DOCTYPE html>
+    ?><!DOCTYPE html>
   <html lang="pl">
       <head>
           <meta charset="utf-8">
@@ -71,7 +71,7 @@ echo $html;
       </head>
       <body>
       </body>
-  </html>`;
+  </html><\?`;
 
   const templateTextArea = document.getElementById('template');
   templateTextArea.value = htmlToTemplate;

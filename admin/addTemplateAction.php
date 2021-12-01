@@ -16,9 +16,10 @@ if( count( $_POST ) )
     $array = json_decode($array, true);
 
     $tableCells = join(', ', array_map( function($x) { return $x['nameField'] . ' TEXT'; }, $array ));
-    $queryInsert = 'CREATE TABLE `'. $_POST['name'] .'` ( id INT AUTO_INCREMENT PRIMARY KEY, '. $tableCells .')';
+    $queryInsert = 'CREATE TABLE `'. $_POST['name'] .'` ( id INT AUTO_INCREMENT PRIMARY KEY, url TEXT UNIQUE,'. $tableCells .')';
     
     echo ($sql->prepare($queryInsert)->execute() ? 'Utworzono tabelę do szablonu' : 'BŁĄD ! Nie utworzono tabeli do szablonu');
+    
 
 }
 ?>

@@ -16,7 +16,7 @@ if( count( $_GET ) )
         // print_r($structure);
         
         $html .= (
-            $structure->typeField != 'text'
+            $structure->typeField == 'text'
             ?  htmlspecialchars( $structure->nameField ) .'<br><input name="'. $structure->nameField .'"><br><br>'
             : htmlspecialchars( $structure->nameField ) .'<br><textarea name="'. $structure->nameField .'">'. htmlspecialchars( $structure->nameField ) .'</textarea><br><br>'
         );
